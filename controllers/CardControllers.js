@@ -1,5 +1,5 @@
-const {Card} = require('../models');
-const list = require('../models/list');
+const {Card, List} = require('../models');
+const lists = require('../models/list');
 
 const getPage =(page,size)=>{
     const limit = size? + size: 10;
@@ -13,15 +13,23 @@ const getPageData = (data, page, limit)=>{
     return {totalItems, items, totalPages, currentPage}
 }
 
-const GetAllCards = async (req,res)=>{
-    const {page,size, name } = req.query
-    let condition = name ? {name:{[Op.like]:`%${name}%`}}:null
-    const {limit, offset} = getPage(page,size)
+// const GetAllCards = async (req,res)=>{
+//     const {page,size, name } = req.query
+//     let condition = name ? {name:{[Op.like]:`%${name}%`}}:null
+//     const {limit, offset} = getPage(page,size)
+//     try{
+//        const cards = await Card.findAndCountAll({where: condition, limit, offset})
+//        .then(data=>{
+//         const response = getPageData(data,page,limit)
+//        })
+//         res.send(cards)
+//     } catch(error){
+//         throw error
+//     }
+// }
+const GetAllCards= async(req,res)=>{
     try{
-       const cards = await Card.findAndCountAll({where: condition, limit, offset})
-       .then(data=>{
-        const response = getPageData(data,page,limit)
-       })
+        const cards = await Card.findAll()
         res.send(cards)
     } catch(error){
         throw error
@@ -30,10 +38,10 @@ const GetAllCards = async (req,res)=>{
 
 const GetCardDetail  = async (req,res)=>{
     try{
-       const card = await Card.findByPk(req.params.cardId,{
-        include: [{model:list, as:deck}]
+       const card = await Card.findByPk(req.params.card_Id,{
+        include: [{model:List, as:'deck'}]
        })
-        res.send()
+        res.send(card)
     } catch(error){
         throw error
     }
@@ -73,7 +81,7 @@ const CreateCard = async (req,res)=>{
 const DeleteCard  = async (req,res)=>{
     try{
         let cardId = ( req.params.card_id)
-        let card = await Card.destory({
+        let card = await Card.destroy({
         where:{id:cardId}
        })
         res.send({message:`Card id'd ${cardId} has been removed`})

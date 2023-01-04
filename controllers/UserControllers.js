@@ -11,7 +11,7 @@ const GetAllUserProfile = async (req,res)=>{
 const  GetIndividualUserProfile= async (req,res)=>{
     try{
        const users = await User.findByPk(req.params.userId,{
-        include: [{model:List, as:owner}]
+        include: [{model:List, as:'owner'}]
        })
        res.send(users)
     } catch(error){

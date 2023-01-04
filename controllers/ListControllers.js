@@ -3,7 +3,7 @@ const {List, Card,} = require ('../models')
 const  GetDeck= async (req,res)=>{
     try{
        const lists = await List.findByPk(req.params.list_id,{
-        include: [{model:Card, as:'deck'}]
+        include: [{model:Card, as:'deck', attributes:['id','name','imageUrl']}]
     })
         res.send(lists)
     } catch(error){
@@ -13,11 +13,11 @@ const  GetDeck= async (req,res)=>{
 
 const  CreateNewList = async (req,res)=>{
     try{
-       let userId = req.params.user_id
+       let Id = req.params.user_id
        let body = req.body
 
        const list = await List.create(
-        {userId, ...body}
+        {user_id:Id, ...body}
        )
         res.send(list)
     } catch(error){
