@@ -6,7 +6,7 @@ const AddCard = async (req, res)=>{
         let x = req.query.list_id
         let y = req.query.card_id
         const add = await CardList.create(
-            {card_Id:y, cardId:y, list_Id:x, listId:x }
+            {list_Id:x, listId:x, card_Id:y, cardId:y }
         )
         res.send(add)
     }catch(error){

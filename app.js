@@ -4,7 +4,7 @@ const cors = require('cors')
 
 const AppRouter = require('./routes/AppRouter')
 
-const PORT = process.env.Port || 3001
+const PORT = process.env.Port || 8000
 
 const app = express()
 
