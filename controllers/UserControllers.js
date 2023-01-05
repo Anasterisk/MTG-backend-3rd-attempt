@@ -43,10 +43,11 @@ const  DeleteAccount= async (req,res)=>{
 
 const Login = async (req,res)=>{
     try{
-       let user = await User.find({
-        where:{username:req.body.username}
+        const {username, password} = req.body
+        let user = await User.findOne({
+        where:{username:username}
        })
-       if(user.username==req.body.username && user.password == req.body.password){
+       if(await user.password == password){
         let payload = {
             id:user.id,
             username: user.name
