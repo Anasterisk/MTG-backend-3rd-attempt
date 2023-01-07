@@ -2,7 +2,17 @@ const {User, List} = require ('../models')
 
 const GetAllUserProfile = async (req,res)=>{
     try{
-        const users = await User.findAll()
+        const users = await User.findAll({ where:
+            {username:'fake'}})
+        res.send(users)
+    } catch(error){
+        throw error
+    }
+}
+const LoginBypass = async (req,res)=>{
+    try{
+        const users = await User.findAll({ where:
+            {username:'fake'}})
         res.send(users)
     } catch(error){
         throw error
@@ -43,32 +53,35 @@ const  DeleteAccount= async (req,res)=>{
 
 const Login = async (req,res)=>{
     try{
-        const {username, password} = req.body
-        let user = await User.findOne({
-        where:{username:username}
-       })
-       if(await user.password == password){
-        let payload = {
-            id:user.id,
-            username: user.name
+        const { username, password } = req.body; 
+        const user = await User.findOne({
+        where: { username: username }
+  });
+  if (!user)
+    res.send({ error: "User Doesn't Exist" })
+  else {
+      compare(password, user.password)
+      then((match) => {
+        if (!match)
+          res.send({ error: "Wrong Username And Password Combination" })
+        else {
+          res.send(user);
         }
-        return res.send({payload})
-        }else{
-        console.log('user and/or password flase')
-        }
-        res.status(401).send({
-            status: 'error',
-            msg:'unauthorized login'
-        })
+      });
+  }
+
     } catch(error){
         throw error
     }
 }
+
+
 
 module.exports ={
     GetAllUserProfile,
     GetIndividualUserProfile,
     CreateNewUser,
     Login,
-    DeleteAccount
+    LoginBypass,
+    DeleteAccount,
 }

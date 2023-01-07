@@ -80,8 +80,8 @@ const CreateCard = async (req,res)=>{
 
 const DeleteCard  = async (req,res)=>{
     try{
-        let cardId = ( req.params.card_id)
-        let card = await Card.destroy({
+        let cardId = (req.params.card_id)
+        card = await Card.destroy({
         where:{id:cardId}
        })
         res.send({message:`Card id'd ${cardId} has been removed`})
@@ -93,8 +93,8 @@ const DeleteCard  = async (req,res)=>{
 const UpdateCard = async (req,res)=>{
     try{
         let cardId = parseInt(req.params.card_id)
-        let updatedCard = await Card.update(req.body,
-            {where:{id:cardId}, returning:true})
+        let updatedCard = await Card.update(req.body, {where:{id:cardId}, returning:true})
+            
             res.send(updatedCard)
     } catch(error){
         throw error

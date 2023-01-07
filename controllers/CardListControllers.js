@@ -5,6 +5,7 @@ const AddCard = async (req, res)=>{
     try{
         let x = req.query.list_id
         let y = req.query.card_id
+        
         const add = await CardList.create(
             {list_Id:x, listId:x, card_Id:y, cardId:y }
         )
