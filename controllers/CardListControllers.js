@@ -17,8 +17,13 @@ const AddCard = async (req, res)=>{
 //?CLId=x
 const RemoveCard = async (req, res)=>{
     try{
-        let CLId = req.query.CLId 
-        await CardList.destroy({where:{id:CLId}})
+        let x = req.query.list_id
+        let y = req.query.card_id
+        await CardList.destroy({
+            where:{
+                listId: x,
+                cardId: y
+            }})
         res.send({message:`Card removed from List`})
     }catch(error){
         throw error
