@@ -11,7 +11,7 @@ const AddCard = async (req, res)=>{
         )
         res.send(add)
     }catch(error){
-    throw error
+    throw error 
     }
 }
 //?CLId=x

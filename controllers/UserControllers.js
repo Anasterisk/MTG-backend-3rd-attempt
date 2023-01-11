@@ -2,8 +2,7 @@ const {User, List} = require ('../models')
 
 const GetAllUserProfile = async (req,res)=>{
     try{
-        const users = await User.findAll({ where:
-            {username:'fake'}})
+        const users = await User.findAll()
         res.send(users)
     } catch(error){
         throw error
